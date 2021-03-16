@@ -8,9 +8,6 @@
 
 import UIKit
 
-private let titleLabelCenterYOffset : CGFloat = -10
-private let subtitleLabelCenterYOffset : CGFloat = 10
-
 public class CourseOutlineHeaderView: UIView {
     private let styles : OEXStyles
     
@@ -19,9 +16,10 @@ public class CourseOutlineHeaderView: UIView {
     private let bottomDivider : UIView = UIView(frame: CGRect.zero)
     
     private let viewButton = UIButton(type: .system)
-    private let messageView = UILabel(frame: CGRect.zero)
+    private let messageView = UIView(frame: CGRect.zero)
+    private let titleLabel = UILabel(frame: CGRect.zero)
     private let subtitleLabel = UILabel(frame: CGRect.zero)
-    
+
     private var contrastColor : UIColor {
         return styles.neutralWhiteT()
     }
@@ -51,15 +49,20 @@ public class CourseOutlineHeaderView: UIView {
         self.styles = styles
         super.init(frame : frame)
         
-        addSubview(viewButton)
+        messageView.addSubview(titleLabel)
+        messageView.addSubview(subtitleLabel)
+
         addSubview(messageView)
         addSubview(bottomDivider)
-        addSubview(subtitleLabel)
-        
-        viewButton.setImage(#imageLiteral(resourceName: "chevron_right").withRenderingMode(.alwaysTemplate), for: .normal)
+        addSubview(viewButton) // Keep this on top to catch taps anywhere in this view
+
+        let buttonIcon = #imageLiteral(resourceName: "chevron_right").withRenderingMode(.alwaysTemplate)
+        viewButton.setImage(buttonIcon, for: .normal)
         viewButton.tintColor = styles.accentAColor()
+        viewButton.contentHorizontalAlignment = .trailing
+        viewButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: StandardHorizontalMargin, bottom: 0, right: StandardHorizontalMargin)
         
-        messageView.attributedText = labelStyle.attributedString(withText: titleText)
+        titleLabel.attributedText = labelStyle.attributedString(withText: titleText)
         subtitleLabel.attributedText = subtitleLabelStyle.attributedString(withText: subtitleText)
         
         backgroundColor = styles.primaryBaseColor()
@@ -73,26 +76,32 @@ public class CourseOutlineHeaderView: UIView {
         }
         
         viewButton.snp.makeConstraints { make in
-            make.trailing.equalTo(self.snp.trailing).offset(-StandardHorizontalMargin)
-            make.centerY.equalTo(self)
-            make.top.equalTo(self).offset(5)
-            make.bottom.equalTo(self).offset(-5)
+            make.trailing.equalTo(self.snp.trailing)
+            make.leading.equalTo(self)
+            make.top.equalTo(self)
+            make.bottom.equalTo(self)
         }
 
         viewButton.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
         
         messageView.snp.makeConstraints { make in
-            let situationalCenterYOffset = hasSubtitle ? titleLabelCenterYOffset : 0
-            make.centerY.equalTo(self).offset(situationalCenterYOffset)
+            make.centerY.equalTo(self)
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
+            make.trailing.lessThanOrEqualTo(viewButton.snp.trailing).offset(-StandardHorizontalMargin - buttonIcon.size.width - 10).priority(.high) // 10pt away from the button icon once the icon is positioned correctly
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(messageView)
+            make.leading.equalTo(messageView)
+            make.trailing.equalTo(messageView)
         }
         
         subtitleLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(self).offset(subtitleLabelCenterYOffset)
+            make.top.equalTo(titleLabel.snp.bottom)
+            make.bottom.equalTo(messageView)
             make.leading.equalTo(messageView)
-            make.trailing.lessThanOrEqualTo(viewButton.snp.leading).offset(-10)
+            make.trailing.equalTo(messageView)
         }
-        subtitleLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: NSLayoutConstraint.Axis.horizontal)
 
         setAccessibilityIdentifiers()
     }
