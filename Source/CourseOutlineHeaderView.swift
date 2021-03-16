@@ -56,7 +56,7 @@ public class CourseOutlineHeaderView: UIView {
         addSubview(bottomDivider)
         addSubview(viewButton) // Keep this on top to catch taps anywhere in this view
 
-        let buttonIcon = #imageLiteral(resourceName: "chevron_right").withRenderingMode(.alwaysTemplate)
+        let buttonIcon = #imageLiteral(resourceName: "chevron_right").withRenderingMode(.alwaysTemplate).imageFlippedForRightToLeftLayoutDirection()
         viewButton.setImage(buttonIcon, for: .normal)
         viewButton.tintColor = styles.accentAColor()
         viewButton.contentHorizontalAlignment = .trailing
