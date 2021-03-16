@@ -34,11 +34,6 @@ public class CourseOutlineHeaderView: UIView {
         return OEXTextStyle(weight: .normal, size: .small, color : contrastColor)
     }
     
-    private var viewButtonStyle : ButtonStyle {
-        let textStyle = OEXTextStyle(weight: .semiBold, size: .large, color : OEXStyles.shared().accentAColor())
-        return ButtonStyle(textStyle: textStyle, backgroundColor: nil, borderStyle: nil)
-    }
-    
     private var hasSubtitle : Bool {
         return !(subtitleLabel.text?.isEmpty ?? true)
     }
@@ -61,7 +56,8 @@ public class CourseOutlineHeaderView: UIView {
         addSubview(bottomDivider)
         addSubview(subtitleLabel)
         
-        viewButton.applyButtonStyle(style: viewButtonStyle, withTitle : Strings.view)
+        viewButton.setImage(#imageLiteral(resourceName: "chevron_right").withRenderingMode(.alwaysTemplate), for: .normal)
+        viewButton.tintColor = styles.accentAColor()
         
         messageView.attributedText = labelStyle.attributedString(withText: titleText)
         subtitleLabel.attributedText = subtitleLabelStyle.attributedString(withText: subtitleText)
