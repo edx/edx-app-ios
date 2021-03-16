@@ -31,7 +31,7 @@ public class CourseOutlineHeaderView: UIView {
     }
     
     private var subtitleLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .small, color : contrastColor)
+        return OEXTextStyle(weight: .normal, size: .base, color : contrastColor)
     }
     
     private var hasSubtitle : Bool {
