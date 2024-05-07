@@ -412,13 +412,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         switch context {
         case let .Topic(topic):
-            self.environment.analytics.trackDiscussionScreen(withName: AnalyticsScreenName.ViewTopicThreads, courseId: self.courseID, value: topic.name, threadId: nil, topicId: topic.id, responseID: nil)
+            self.environment.analytics.trackDiscussionScreen(withName: AnalyticsScreenName.ViewTopicThreads, courseId: self.courseID, threadId: nil, topicId: topic.id, responseID: nil)
         case let .Search(query):
-            self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSearchThreads, courseID: self.courseID, value: query, additionalInfo:["search_string":query])
+            self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSearchThreads, courseID: self.courseID, additionalInfo:["search_string":query])
         case .Following:
-            self.environment.analytics.trackDiscussionScreen(withName: AnalyticsScreenName.ViewTopicThreads, courseId: self.courseID, value: "posts_following", threadId: nil, topicId: "posts_following", responseID: nil)
+            self.environment.analytics.trackDiscussionScreen(withName: AnalyticsScreenName.ViewTopicThreads, courseId: self.courseID, threadId: nil, topicId: "posts_following", responseID: nil)
         case .AllPosts:
-            self.environment.analytics.trackDiscussionScreen(withName: AnalyticsScreenName.ViewTopicThreads, courseId: self.courseID, value: "all_posts", threadId: nil, topicId: "all_posts", responseID: nil)
+            self.environment.analytics.trackDiscussionScreen(withName: AnalyticsScreenName.ViewTopicThreads, courseId: self.courseID, threadId: nil, topicId: "all_posts", responseID: nil)
         }
     }
     

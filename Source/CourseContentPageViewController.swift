@@ -90,7 +90,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         navigationController?.setToolbarHidden(false, animated: animated)
         courseQuerier.blockWithID(id: blockID).extendLifetimeUntilFirstResult (success:
             {[weak self] block in
-                self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenUnitDetail, courseID: self?.courseID ?? "", value: block.internalName)
+                self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenUnitDetail, courseID: self?.courseID ?? "")
             },
             failure: {
                 Logger.logError("ANALYTICS", "Unable to load block: \($0)")

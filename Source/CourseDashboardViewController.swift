@@ -58,7 +58,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
         super.viewWillAppear(animated)
         
         navigationController?.setNavigationBarHidden(false, animated: true)
-        environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseDashboard, courseID: courseID, value: nil)
+        environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseDashboard, courseID: courseID)
     }
     
     override func didReceiveMemoryWarning() {

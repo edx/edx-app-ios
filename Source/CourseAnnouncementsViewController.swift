@@ -91,7 +91,7 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, LoadState
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadContent()
-        environment.analytics.trackScreen(withName: OEXAnalyticsScreenAnnouncements, courseID: courseID, value: nil)
+        environment.analytics.trackScreen(withName: OEXAnalyticsScreenAnnouncements, courseID: courseID)
     }
     
     override func reloadViewData() {

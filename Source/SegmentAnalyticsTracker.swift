@@ -66,16 +66,12 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         Analytics.shared().track(event.displayName, properties: info)
     }
     
-    func trackScreen(withName screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {
+    func trackScreen(withName screenName: String, courseID: String?, additionalInfo info: [String : String]?) {
         var properties: [String : Any] = [
             key_context: [
                 key_app_name: value_app_name
             ]
         ]
-
-        if let value = value {
-            properties[GoogleActionKey] = value as NSObject
-        }
 
         if let userID = OEXSession.shared()?.currentUser?.userId {
             properties[AnalyticsEventDataKey.UserID.rawValue] = userID
