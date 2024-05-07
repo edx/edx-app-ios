@@ -82,7 +82,6 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
                     XCTAssertNotNil(event)
                     XCTAssertEqual(event!.screenName, OEXAnalyticsScreenCourseOutline)
                     XCTAssertEqual(event!.courseID, self.outline.root)
-                    XCTAssertNil(event!.value)
                     expectation.fulfill()
                 }
             }
@@ -99,7 +98,6 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
                     XCTAssertNotNil(event)
                     XCTAssertEqual(event!.screenName, OEXAnalyticsScreenSectionOutline)
                     XCTAssertEqual(event!.courseID, self.outline.root)
-                    XCTAssertEqual(event!.value, section.internalName)
                     expectation.fulfill()
                 }
             }

@@ -34,7 +34,7 @@ extension OEXAnalytics {
     }
 
     func trackAppReviewScreen() {
-        self.trackScreen(withName: AnalyticsScreenName.AppReviews.rawValue, courseID: nil, value: nil, additionalInfo: additionalParams(selectedRating: nil))
+        self.trackScreen(withName: AnalyticsScreenName.AppReviews.rawValue, courseID: nil, additionalInfo: additionalParams(selectedRating: nil))
         
         self.trackEvent(appReviewEvent(name: AnalyticsEventName.ViewRating.rawValue, displayName: viewRatingDisplayName), forComponent: nil, withInfo: additionalParams())
     }

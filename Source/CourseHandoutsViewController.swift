@@ -54,7 +54,7 @@ public class CourseHandoutsViewController: OfflineSupportViewController, LoadSta
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        environment.analytics.trackScreen(withName: OEXAnalyticsScreenHandouts, courseID: courseID, value: nil)
+        environment.analytics.trackScreen(withName: OEXAnalyticsScreenHandouts, courseID: courseID)
         loadHandouts()
     }
     

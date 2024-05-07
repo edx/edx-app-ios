@@ -156,7 +156,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
             tableView.deselectRow(at: indexPath, animated: false)
         }
         
-        self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenViewTopics, courseID: self.courseID, value: nil)
+        self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenViewTopics, courseID: self.courseID)
         refreshTopics()
     }
     

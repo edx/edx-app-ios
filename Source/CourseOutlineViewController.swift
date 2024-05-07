@@ -214,13 +214,13 @@ public class CourseOutlineViewController :
                 if self?.courseOutlineMode == .full {
                     self?.courseOutlineLoaded = true
                     self?.handleNavigationIfNeeded()
-                    self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)
+                    self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID)
                 }
                 else {
-                    self?.environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseVideos.rawValue, courseID: self?.courseID, value: nil)
+                    self?.environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseVideos.rawValue, courseID: self?.courseID)
                 }
             } else {
-                self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self?.courseID, value: block.internalName)
+                self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self?.courseID)
                 self?.tableController.isSectionOutline = true
             }
         } failure: { [weak self] error in

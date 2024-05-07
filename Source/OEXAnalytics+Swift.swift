@@ -301,7 +301,6 @@ extension OEXAnalytics {
     func trackDiscussionScreen(
             withName: AnalyticsScreenName,
             courseId: String,
-            value: String?,
             threadId: String?,
             topicId: String?,
             responseID: String?,
@@ -312,7 +311,7 @@ extension OEXAnalytics {
         info.setObjectOrNil(topicId, forKey: AnalyticsEventDataKey.TopicID.rawValue)
         info.setObjectOrNil(responseID, forKey: AnalyticsEventDataKey.ResponseID.rawValue)
         info.setObjectOrNil(author, forKey: AnalyticsEventDataKey.Author.rawValue)
-        self.trackScreen(withName: withName.rawValue, courseID: courseId, value: value, additionalInfo: info)
+        trackScreen(withName: withName.rawValue, courseID: courseId, additionalInfo: info)
     }
     
     func trackSubsectionDeleteVideos(courseID: String, subsectionID: String){
@@ -434,7 +433,7 @@ extension OEXAnalytics {
         }
         info.setSafeObject(name.rawValue, forKey: AnalyticsEventDataKey.ScreenName.rawValue)
         
-        trackScreen(withName: AnalyticsDisplayName.ValuePropModalView.rawValue, courseID: courseId, value: nil, additionalInfo: info)
+        trackScreen(withName: AnalyticsDisplayName.ValuePropModalView.rawValue, courseID: courseId, additionalInfo: info)
     }
 
     func trackValuePropShowMoreless(with displayName: AnalyticsDisplayName, eventName: AnalyticsEventName, courseID: String, blockID: String, pacing: String) {

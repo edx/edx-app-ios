@@ -54,11 +54,8 @@ class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         
     }
     
-    func trackScreen(withName screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {
-        var properties: [String:NSObject] = [:]
-        if let value = value {
-            properties["action"] = value as NSObject
-        }
+    func trackScreen(withName screenName: String, courseID: String?, additionalInfo info: [String : String]?) {
+        var properties: [String:NSObject] = [:]        
         
         // adding additional info to event
         if let info = info, info.count > 0 {

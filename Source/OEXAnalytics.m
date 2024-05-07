@@ -95,21 +95,21 @@ static OEXAnalytics* sAnalytics;
 
 #pragma mark - Screens
 
-- (void)trackScreenWithName:(NSString*)screenName courseID:(nullable NSString*)courseID value:(nullable NSString*)value {
+- (void)trackScreenWithName:(NSString*)screenName courseID:(nullable NSString*)courseID {
 
-    [self trackScreenWithName:screenName courseID:courseID value:value additionalInfo:@{}];
+    [self trackScreenWithName:screenName courseID:courseID additionalInfo:@{}];
 }
 
-- (void) trackScreenWithName:(NSString *)screenName courseID:(nullable NSString *)courseID value:(nullable NSString*)value additionalInfo:(NSDictionary<NSString*, NSString*>*) info {
+- (void) trackScreenWithName:(NSString *)screenName courseID:(nullable NSString *)courseID additionalInfo:(NSDictionary<NSString*, NSString*>*) info {
     if(screenName) {
         for(id <OEXAnalyticsTracker> tracker in self.trackers) {
-            [tracker trackScreenWithName:screenName courseID:courseID value:value additionalInfo:info];
+            [tracker trackScreenWithName:screenName courseID:courseID additionalInfo:info];
         }
     }
 }
 
 - (void)trackScreenWithName:(NSString *)screenName {
-    [self trackScreenWithName:screenName courseID:nil value:nil additionalInfo:@{}];
+    [self trackScreenWithName:screenName courseID:nil additionalInfo:@{}];
 }
 
 #pragma mark - User Identification
@@ -493,7 +493,8 @@ static OEXAnalytics* sAnalytics;
 
 #pragma mark- Discussion
 
-- (void) trackDiscussionSearchScreenWithName:(NSString *) screenName courseId:(NSString *) courseID value:(nullable NSString *) value searchQuery:(NSString *) query {
-    [self trackScreenWithName:screenName courseID:courseID value:value additionalInfo:@{OEXAnalyticsKeyQueryString:query}];
+- (void) trackDiscussionSearchScreenWithName:(NSString *) screenName courseId:(NSString *) courseID searchQuery:(NSString *) query {
+    [self trackScreenWithName:screenName courseID:courseID additionalInfo:@{OEXAnalyticsKeyQueryString:query}];
 }
+
 @end

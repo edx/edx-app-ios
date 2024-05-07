@@ -37,8 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)clearIdentifiedUser;
 
 - (void)trackEvent:(OEXAnalyticsEvent*)event forComponent:(nullable NSString*)component withInfo:(NSDictionary* _Nullable)info;
-- (void)trackScreenWithName:(NSString*)screenName courseID:(nullable NSString*)courseID value:(nullable NSString*)value;
-- (void) trackScreenWithName:(NSString *)screenName courseID:(nullable NSString *)courseID value:(nullable NSString*)value additionalInfo:(NSDictionary<NSString*, NSString*>*) info;
+- (void)trackScreenWithName:(NSString*)screenName courseID:(nullable NSString*)courseID;
+- (void) trackScreenWithName:(NSString *)screenName courseID:(nullable NSString *)courseID additionalInfo:(NSDictionary<NSString*, NSString*>*) info;
 
 - (void)trackScreenWithName:(NSString*)screenName;
 
@@ -135,7 +135,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)trackUserFindsCourses:(NSInteger) enrolledCounses;
 
 //Discussion search screen event
-- (void) trackDiscussionSearchScreenWithName:(NSString *) screenName courseId:(NSString *) courseID value:(nullable NSString *) value searchQuery:(NSString *) query;
+- (void) trackDiscussionSearchScreenWithName:(NSString *) screenName courseId:(NSString *) courseID searchQuery:(NSString *) query;
 
 @end
 
