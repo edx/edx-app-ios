@@ -122,14 +122,14 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     
     private func showSpecialExamMessageView(blockID: CourseBlockID) {
         let info = [ AnalyticsEventDataKey.SubsectionID.rawValue: blockID ]
-        environment.analytics.trackScreen(withName: AnalyticsScreenName.SpecialExamBlockedScreen.rawValue, courseID: courseID, value: nil, additionalInfo: info)
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.SpecialExamBlockedScreen.rawValue, courseID: courseID, additionalInfo: info)
         
         configureIconMessage(with: IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentNotAvailable))
     }
     
     private func showEmptySubsectionMessageView(blockID: CourseBlockID) {
         let info = [ AnalyticsEventDataKey.SubsectionID.rawValue: blockID ]
-        environment.analytics.trackScreen(withName: AnalyticsScreenName.EmptySectionOutline.rawValue, courseID: courseID, value: nil, additionalInfo: info)
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.EmptySectionOutline.rawValue, courseID: courseID, additionalInfo: info)
         
         configureIconMessage(with: IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentNotAvailable))
     }

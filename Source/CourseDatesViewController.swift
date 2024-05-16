@@ -135,7 +135,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseDates.rawValue, courseID: courseID, value: nil)
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseDates.rawValue, courseID: courseID)
     }
     
     override var shouldAutorotate: Bool {

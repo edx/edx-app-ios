@@ -23,14 +23,12 @@ open class MockAnalyticsEventRecord : NSObject {
 
 open class MockAnalyticsScreenRecord : NSObject {
     public let screenName: String
-    public let value: String?
     public let courseID: String?
     public let additionalInfo: NSDictionary?
     
-    init(screenName : String, courseID: String?, value: String?, additionalInfo: NSDictionary?) {
+    init(screenName : String, courseID: String?, additionalInfo: NSDictionary?) {
         self.screenName = screenName
         self.courseID = courseID
-        self.value = value
         self.additionalInfo = additionalInfo
     }
 }
@@ -75,9 +73,9 @@ class MockAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         eventStream.send(record)
     }
     
-    func trackScreen(withName screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {
+    func trackScreen(withName screenName: String, courseID: String?, additionalInfo info: [String : String]?) {
         
-        let record = MockAnalyticsRecord.screen(MockAnalyticsScreenRecord(screenName: screenName, courseID: courseID, value: value, additionalInfo: info as NSDictionary?))
+        let record = MockAnalyticsRecord.screen(MockAnalyticsScreenRecord(screenName: screenName, courseID: courseID, additionalInfo: info as NSDictionary?))
         events.append(record)
         eventStream.send(record)
     }

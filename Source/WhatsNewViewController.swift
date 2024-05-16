@@ -186,7 +186,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     
     private func logScreenEvent() {
         let params = [key_app_version : Bundle.main.oex_shortVersionString()]
-        environment.analytics.trackScreen(withName: AnalyticsScreenName.WhatsNew.rawValue, courseID: nil, value: nil, additionalInfo: params)
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.WhatsNew.rawValue, courseID: nil, additionalInfo: params)
     }
     
     private func logCloseEvent() {

@@ -25,13 +25,10 @@ class LoggingAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         Logger.logInfo(ANALYTICS, "Track Event: \(event), component: \(String(describing: component)), properties: \(properties)")
     }
     
-    func trackScreen(withName screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {
+    func trackScreen(withName screenName: String, courseID: String?, additionalInfo info: [String : String]?) {
         var message = "Track Screen Named: \(screenName)"
         if let courseID = courseID {
             message = message + ", courseID: \(courseID)"
-        }
-        if let value = value {
-            message = message + ", value: \(value)"
         }
         
         if let info = info {
