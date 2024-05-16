@@ -55,18 +55,11 @@ class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
     }
     
     func trackScreen(withName screenName: String, courseID: String?, additionalInfo info: [String : String]?) {
-        var properties: [String:NSObject] = [:]        
-        
-        // adding additional info to event
-        if let info = info, info.count > 0 {
-            properties = properties.concat(dictionary: info as [String : NSObject])
-        }
-        
         let event = OEXAnalyticsEvent()
         event.displayName = screenName
         event.name = OEXAnalyticsEventScreen;
         event.courseID = courseID
-        trackEvent(event, forComponent: nil, withProperties: properties)
+        trackEvent(event, forComponent: nil, withProperties: info ?? [:])
     }
     
     private func formatParamatersForFirebase(params: [String : NSObject], formattedParams: inout [String: NSObject]) {
