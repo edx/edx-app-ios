@@ -12,7 +12,6 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
     
     private let GoogleCategoryKey = "category"
     private let GoogleLabelKey = "label"
-    private let GoogleActionKey = "action"
     private let GoogleDeviceKey = "device_model"
     
     var currentOrientationValue : String {
