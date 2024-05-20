@@ -24,6 +24,8 @@
 		0D157635235EDA950007B0B7 /* ChromeCastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D157634235EDA950007B0B7 /* ChromeCastManager.swift */; };
 		0D930BC223680983001C80AF /* ChromeCastMiniPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D930BC123680983001C80AF /* ChromeCastMiniPlayer.swift */; };
 		0D930BC4236978D6001C80AF /* ChromeCastMetaDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D930BC3236978D6001C80AF /* ChromeCastMetaDataModel.swift */; };
+		140B809E2BF7659900FCE118 /* FullStoryConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140B809D2BF7659900FCE118 /* FullStoryConfig.swift */; };
+		141DB4642BED148F00BDA069 /* FullStoryAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141DB4632BED148F00BDA069 /* FullStoryAnalyticsTracker.swift */; };
 		1904A14C1A1386C2006A5524 /* OEXDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1904A1401A1386C2006A5524 /* OEXDBManager.m */; };
 		1904A14D1A1386C2006A5524 /* edXDB.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 1904A1411A1386C2006A5524 /* edXDB.xcdatamodel */; };
 		1904A14E1A1386C2006A5524 /* VideoData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1904A1431A1386C2006A5524 /* VideoData.m */; };
@@ -924,7 +926,9 @@
 		0D157634235EDA950007B0B7 /* ChromeCastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromeCastManager.swift; sourceTree = "<group>"; };
 		0D930BC123680983001C80AF /* ChromeCastMiniPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromeCastMiniPlayer.swift; sourceTree = "<group>"; };
 		0D930BC3236978D6001C80AF /* ChromeCastMetaDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromeCastMetaDataModel.swift; sourceTree = "<group>"; };
+		140B809D2BF7659900FCE118 /* FullStoryConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullStoryConfig.swift; sourceTree = "<group>"; };
 		1418DD2592F0416FF7A6B152 /* libPods-edX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-edX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		141DB4632BED148F00BDA069 /* FullStoryAnalyticsTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullStoryAnalyticsTracker.swift; sourceTree = "<group>"; };
 		1904A1401A1386C2006A5524 /* OEXDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDBManager.m; sourceTree = "<group>"; };
 		1904A1411A1386C2006A5524 /* edXDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = edXDB.xcdatamodel; sourceTree = "<group>"; };
 		1904A1421A1386C2006A5524 /* OEXStorageInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXStorageInterface.h; sourceTree = "<group>"; };
@@ -2144,6 +2148,7 @@
 				1940D8CA1A230E25000318A3 /* OEXAnalytics.m */,
 				E01F45661E03D04100B9D7DC /* FirebaseAnalyticsTracker.swift */,
 				E0B58CDF28193AE30047D78F /* OEXAnalytics+CourseUpgrade.swift */,
+				141DB4632BED148F00BDA069 /* FullStoryAnalyticsTracker.swift */,
 			);
 			name = Analytics;
 			sourceTree = "<group>";
@@ -3277,6 +3282,7 @@
 				22FDD0AB2552691600BA378D /* FirebaseRemoteConfiguration.swift */,
 				E01F68CD2626BF2E006B6716 /* BrazeConfig.swift */,
 				5F3A6199265796A7005329A4 /* CalendarSyncConfig.swift */,
+				140B809D2BF7659900FCE118 /* FullStoryConfig.swift */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -4127,6 +4133,7 @@
 				BFD74E97BAF89D19434811E5 /* [CP] Embed Pods Frameworks */,
 				43A92E60C5A96043835CC691 /* [CP] Copy Pods Resources */,
 				77BDD65E1A44BD7300EA2A9C /* Process Config */,
+				141DB4622BED11AE00BDA069 /* Run FullStory Asset Uploader */,
 			);
 			buildRules = (
 			);
@@ -4409,6 +4416,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		141DB4622BED11AE00BDA069 /* Run FullStory Asset Uploader */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run FullStory Asset Uploader";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FullStory/tools/FullStoryCommandLine\" \"${CONFIGURATION_BUILD_DIR}/${WRAPPER_NAME}\"\n";
+		};
 		43A92E60C5A96043835CC691 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4423,6 +4448,7 @@
 				"${PODS_ROOT}/DateTools/DateTools/DateTools/DateTools.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInAppMessaging/InAppMessagingDisplayResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleSignIn/GoogleSignIn.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage/SDWebImage.bundle",
 				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
 				"${PODS_ROOT}/google-cast-sdk-no-bluetooth-xcframework/GoogleCast.xcframework/GoogleCastCoreResources.bundle",
 				"${PODS_ROOT}/google-cast-sdk-no-bluetooth-xcframework/GoogleCast.xcframework/GoogleCastUIResources.bundle",
@@ -4437,6 +4463,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/DateTools.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/InAppMessagingDisplayResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SDWebImage.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleCastCoreResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleCastUIResources.bundle",
@@ -4514,6 +4541,7 @@
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework/FBSDKCoreKit",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKCoreKit_Basics/FBSDKCoreKit_Basics.framework/FBSDKCoreKit_Basics",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework/FBSDKLoginKit",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/FullStory/FullStory.framework/FullStory",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/NewRelicAgent/NewRelic.framework/NewRelic",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -4523,6 +4551,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit_Basics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FullStory.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NewRelic.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4742,6 +4771,7 @@
 				7731813B1B6C1442000CC050 /* SeparatorInsetable.swift in Sources */,
 				B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */,
 				9C9B7F6C1A8CC68400A857B2 /* OEXFindCoursesViewController.m in Sources */,
+				141DB4642BED148F00BDA069 /* FullStoryAnalyticsTracker.swift in Sources */,
 				5F7C0C642534520200A344B9 /* FillBackgroundTextStorage.swift in Sources */,
 				191A00201940560D004F7902 /* OEXDataParser.m in Sources */,
 				5F5FC00D269DA9F800F92B8F /* CourseUpgradeButtonView.swift in Sources */,
@@ -4766,6 +4796,7 @@
 				1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */,
 				5F903AF4255020D7006365DE /* UIDeviceExtension.swift in Sources */,
 				46CECC3C1B041D270073C63A /* AdditionalTableViewCell.swift in Sources */,
+				140B809E2BF7659900FCE118 /* FullStoryConfig.swift in Sources */,
 				778F177A1C0D125A0099BF93 /* CoursesContainerViewController.swift in Sources */,
 				77ADF4AF1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m in Sources */,
 				1A7CEA331BABA8C70043A58C /* ProfileImageView.swift in Sources */,
@@ -5645,7 +5676,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/OCMock",
 				);
-				MARKETING_VERSION = 5.0.4;
+				MARKETING_VERSION = 5.0.6;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
@@ -6122,7 +6153,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/OCMock",
 				);
-				MARKETING_VERSION = 5.0.4;
+				MARKETING_VERSION = 5.0.6;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
@@ -6213,7 +6244,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/OCMock",
 				);
-				MARKETING_VERSION = 5.0.4;
+				MARKETING_VERSION = 5.0.6;
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;

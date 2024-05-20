@@ -75,6 +75,10 @@
                 [analytics addTracker:[[LoggingAnalyticsTracker alloc] init]];
             }
             
+            if (env.config.fullStoryConfig.enabled && ![env.config.fullStoryConfig.orgID  isEqual: @""]) {
+                [analytics addTracker:[[FullStoryAnalyticsTracker alloc] init]];
+            }
+            
             return analytics;
         };
         self.configBuilder = ^(OEXEnvironment* env){

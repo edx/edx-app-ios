@@ -260,6 +260,7 @@ public enum AnalyticsEventDataKey: String {
     case PaymentsEnabled = "payment_enabled"
     case PaymentFlowType = "flow_type"
     case Action = "action"
+    case Category = "category"
 }
 
 extension OEXAnalytics {
