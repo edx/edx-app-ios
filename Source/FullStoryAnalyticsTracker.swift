@@ -52,13 +52,12 @@ class FullStoryAnalyticsTracker: NSObject, OEXAnalyticsTracker {
     }
     
     func trackScreen(withName screenName: String, courseID: String?, additionalInfo info: [String: String]?) {
-        let event = OEXAnalyticsEvent()
-        event.displayName = screenName
-        event.name = OEXAnalyticsEventScreen;
-        event.courseID = courseID
+        var parameters = info ?? [:]
         
-        FS.page(withName: screenName, properties: info ?? [:]).start()
+        if let courseID  = courseID {
+            parameters[key_course_id] = courseID
+        }
         
-        trackEvent(event, forComponent: nil, withProperties: info ?? [:])
+        FS.page(withName: screenName, properties: parameters).start()
     }
 }
