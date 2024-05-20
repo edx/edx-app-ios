@@ -181,6 +181,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKCoreKit_Basics/FBSDKCoreKit_Basics.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/FullStory/FullStory.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/NewRelicAgent/NewRelic.framework"
 fi
 if [[ "$CONFIGURATION" == "Profile" ]]; then
@@ -189,6 +190,7 @@ if [[ "$CONFIGURATION" == "Profile" ]]; then
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKCoreKit_Basics/FBSDKCoreKit_Basics.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/FullStory/FullStory.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/NewRelicAgent/NewRelic.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -197,6 +199,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKCoreKit_Basics/FBSDKCoreKit_Basics.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework"
+  install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/FullStory/FullStory.framework"
   install_framework "${PODS_XCFRAMEWORKS_BUILD_DIR}/NewRelicAgent/NewRelic.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

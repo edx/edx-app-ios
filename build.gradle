@@ -191,6 +191,16 @@ class IOSHelper {
         addURLScheme(scheme, plist)
    }
 
+   def addFullStoryConfig(config, plist) {
+        def fullStory = config['FULLSTORY'] ?: [:]
+        def orgID = fullStory['ORG_ID']
+        def enadled = fullStory['ENABLED']
+        if(!orgID || enadled != true) {
+            return
+        }
+        
+        plist["FullStory"] = ['OrgId': orgID]
+    }
 }
 
 
@@ -215,6 +225,7 @@ def processDefaultInfoPlist() {
     helper.addFacebookConfig(config, plist)
     helper.addGoogleConfig(config, plist)
     helper.addMicrosoftConfig(config, plist)
+    helper.addFullStoryConfig(config, plist)
     saveConfigChanges(helper, plist, infoPlistPath, plistPath)
 }
 
