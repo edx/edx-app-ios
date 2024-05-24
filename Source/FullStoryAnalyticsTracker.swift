@@ -19,7 +19,8 @@ class FullStoryAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         guard let userID = user?.userId?.stringValue, let email = user?.email, let username = user?.username else { return }
         let traits: [String: String] = [
             "email": email,
-            "username": username
+            "username": username,
+            "displayName": userID
         ]
         
         FS.identify(userID, userVars: traits)
