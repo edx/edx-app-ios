@@ -17,11 +17,8 @@ class FullStoryAnalyticsTracker: NSObject, OEXAnalyticsTracker {
     
     func identifyUser(_ user: OEXUserDetails?) {
         guard let userID = user?.userId?.stringValue else { return }
-        let traits: [String: String] = [
-            "displayName": userID
-        ]
         
-        FS.identify(userID, userVars: traits)
+        FS.identify(userID, userVars: ["displayName": userID])
     }
     
     func clearIdentifiedUser() {
