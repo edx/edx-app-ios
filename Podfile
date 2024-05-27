@@ -29,6 +29,8 @@ target 'edX' do
   pod 'Segment-Appboy', '= 4.6.0'
   pod 'Smartling.i18n', '~> 1.0.14'
   pod 'YoutubePlayer-in-WKWebView', '~> 0.3.8'
+  pod 'FullStory', :http => 'https://ios-releases.fullstory.com/fullstory-1.47.0-xcframework.tar.gz'
+
 end
 
 target 'edXTests' do
