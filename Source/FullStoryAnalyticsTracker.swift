@@ -30,7 +30,7 @@ class FullStoryAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         
     }
     
-    func trackEvent(_ event: OEXAnalyticsEvent, forComponent component: String?, withProperties properties: [String: Any]) {
+    func trackEvent(_ event: OEXAnalyticsEvent, forComponent component: String?, withProperties properties: [String : Any]) {
         var parameters: [String: Any] = [key_app_name: value_app_name]
         parameters[OEXAnalyticsKeyOrientation] =  currentOrientationValue
         
