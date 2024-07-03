@@ -10,7 +10,7 @@ import Foundation
 
 protocol ValuePropMessageViewDelegate: AnyObject {
     func showValuePropDetailView()
-    func didTapUpgradeCourse(coursePrice: String, price: NSDecimalNumber?, currencyCode: String?, upgradeView: ValuePropComponentView)
+    func didTapUpgradeCourse(localizedPrice: NSDecimalNumber?, currencyCode: String?, upgradeView: ValuePropComponentView)
 }
 
 class ValuePropComponentView: UIView {
@@ -79,8 +79,7 @@ class ValuePropComponentView: UIView {
     private let environment: Environment
     private var courseID: String
     private var blockID: String
-    private var localizedCoursePrice: String?
-    private var price: NSDecimalNumber?
+    private var localizedPrice: NSDecimalNumber?
     private var currencyCode: String?
     
     init(environment: Environment, courseID: String, blockID: CourseBlockID?) {
@@ -189,8 +188,7 @@ class ValuePropComponentView: UIView {
             PaymentManager.shared.fetchPrroduct(courseSku) { [weak self] product, error in
                 if let product = product, let localizedPrice = product.localizedPrice {
                     let endTime = CFAbsoluteTimeGetCurrent() - startTime
-                    self?.localizedCoursePrice = localizedPrice
-                    self?.price = product.price
+                    self?.localizedPrice = product.price
                     self?.currencyCode = product.priceLocale.currencyCode
                     self?.trackPriceLoadDuration(elapsedTime: endTime.millisecond)
                     self?.upgradeButton.stopShimmerEffect()
@@ -214,9 +212,9 @@ class ValuePropComponentView: UIView {
     private func trackPriceLoadDuration(elapsedTime: Int) {
         guard let course = course,
               let courseID = course.course_id,
-              let coursePrice = localizedCoursePrice else { return }
+              let coursePrice = localizedPrice else { return }
         
-        environment.analytics.trackCourseUpgradeTimeToLoadPrice(courseID: courseID, blockID: blockID, pacing: pacing, coursePrice: coursePrice, screen: .courseComponent, elapsedTime: elapsedTime)
+        environment.analytics.trackCourseUpgradeTimeToLoadPrice(courseID: courseID, blockID: blockID, pacing: pacing, localizedPrice: coursePrice, screen: .courseComponent, elapsedTime: elapsedTime, lmsPrice: course.lmsPrice, currencyCode: currencyCode)
     }
     
     private func trackLoadError() {
@@ -233,14 +231,14 @@ class ValuePropComponentView: UIView {
         if error != .productNotExist {
             alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] _ in
                 self?.fetchCoursePrice()
-                self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: .courseComponent, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
+                self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", localizedPrice: nil, screen: .courseComponent, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue, lmsPrice: self?.course?.lmsPrice, currencyCode: nil)
             }
         }
         let cancelButtonTitle = error == .productNotExist ? Strings.ok : Strings.cancel
         alertController.addButton(withTitle: cancelButtonTitle, style: .default) { [weak self] _ in
             self?.upgradeButton.stopShimmerEffect()
             self?.upgradeButton.updateVisibility(visible: false)
-            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", coursePrice: "", screen: .courseComponent, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
+            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.courseID ?? "" , blockID: self?.blockID ?? "", pacing: self?.pacing ?? "", localizedPrice: nil, screen: .courseComponent, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue, lmsPrice: self?.course?.lmsPrice, currencyCode: nil)
         }
     }
 
@@ -268,8 +266,7 @@ class ValuePropComponentView: UIView {
     }
 
     private func upgradeCourse() {
-        guard let coursePrice = localizedCoursePrice else { return }
-        delegate?.didTapUpgradeCourse(coursePrice: coursePrice, price: price, currencyCode: currencyCode, upgradeView: self)
+        delegate?.didTapUpgradeCourse(localizedPrice: localizedPrice, currencyCode: currencyCode, upgradeView: self)
     }
 
     private func trackShowMorelessAnalytics(showingMore: Bool) {

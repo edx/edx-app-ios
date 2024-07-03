@@ -102,18 +102,20 @@ extension EnrolledCoursesViewController {
         
         PaymentManager.shared.fetchPrroduct(courseSku) { [weak self] product, _ in
             if let product = product {
-                self?.upgradeCourse(course: course, localizedCoursePrice: product.localizedPrice, price: product.price, currencyCode: product.priceLocale.currencyCode)
+                self?.upgradeCourse(course: course, localizedPrice: product.price, currencyCode: product.priceLocale.currencyCode)
             }
         }
     }
     
-    private func upgradeCourse(course: OEXCourse, localizedCoursePrice: String?, price: NSDecimalNumber?, currencyCode: String?) {
+    private func upgradeCourse(course: OEXCourse, localizedPrice: NSDecimalNumber?, currencyCode: String?) {
         let pacing: String = course.isSelfPaced == true ? "self" : "instructor"
-        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: course.course_id ?? "", localizedCoursePrice: localizedCoursePrice ?? "", screen: .myCourses)
+        
+        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: course.course_id ?? "", localizedCoursePrice: localizedPrice, screen: .myCourses, lmsPrice: course.lmsPrice, currencyCode: currencyCode)
+        
         environment.analytics.trackCourseUnfulfilledPurchaseInitiated(courseID: course.course_id ?? "", pacing: pacing, screen: .myCourses, flowType: CourseUpgradeHandler.CourseUpgradeMode.silent.rawValue)
 
         let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
-        upgradeHandler.upgradeCourse(with: .silent, price: price, currencyCode: currencyCode) { [weak self] state in
+        upgradeHandler.upgradeCourse(with: .silent, price: localizedPrice, currencyCode: currencyCode) { [weak self] state in
             switch state {
             case .verify:
                 self?.courseUpgradeHelper.handleCourseUpgrade(upgradeHadler: upgradeHandler, state: .fulfillment(showLoader: false))

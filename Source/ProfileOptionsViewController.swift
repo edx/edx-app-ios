@@ -426,7 +426,7 @@ extension ProfileOptionsViewController: RestorePurchasesCellDelegate {
         
         PaymentManager.shared.fetchPrroduct(courseSku) { [weak self] product, _ in
             if let product = product {
-                self?.upgradeCourse(course: course, localizedCoursePrice: product.localizedPrice, price: product.price, currencyCode: product.priceLocale.currencyCode, indicator: indicator)
+                self?.upgradeCourse(course: course, localizedPrice: product.price, currencyCode: product.priceLocale.currencyCode, indicator: indicator)
             }
             else {
                 self?.enableUserInteraction(enable: true)
@@ -437,12 +437,14 @@ extension ProfileOptionsViewController: RestorePurchasesCellDelegate {
         }
     }
     
-    private func upgradeCourse(course: OEXCourse, localizedCoursePrice: String?, price: NSDecimalNumber?, currencyCode: String?, indicator: UIAlertController?) {
+    private func upgradeCourse(course: OEXCourse, localizedPrice: NSDecimalNumber?, currencyCode: String?, indicator: UIAlertController?) {
         let pacing: String = course.isSelfPaced == true ? "self" : "instructor"
-        CourseUpgradeHelper.shared.setupHelperData(environment: environment, pacing: pacing, courseID: course.course_id ?? "", localizedCoursePrice: localizedCoursePrice ?? "", screen: .myCourses)
+        
+        CourseUpgradeHelper.shared.setupHelperData(environment: environment, pacing: pacing, courseID: course.course_id ?? "", localizedCoursePrice: localizedPrice, screen: .myCourses, lmsPrice: course.lmsPrice, currencyCode: currencyCode)
+        
         environment.analytics.trackCourseUnfulfilledPurchaseInitiated(courseID: course.course_id ?? "", pacing: pacing, screen: .myCourses, flowType: CourseUpgradeHandler.CourseUpgradeMode.restore.rawValue)
         let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
-        upgradeHandler.upgradeCourse(with: .restore, price: price, currencyCode: currencyCode) { [weak self] state in
+        upgradeHandler.upgradeCourse(with: .restore, price: localizedPrice, currencyCode: currencyCode) { [weak self] state in
 
             switch state {
             case .verify:
