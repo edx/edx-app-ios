@@ -90,25 +90,6 @@ extension OEXAnalytics {
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
-    
-    func trackCourseUpgradePaymentCancelError(name: AnalyticsDisplayName, biName: AnalyticsEventName, courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, paymentError: String) {
-        let event = OEXAnalyticsEvent()
-        event.displayName = AnalyticsDisplayName.CourseUpgradePaymentCancelError.rawValue
-        event.name = AnalyticsEventName.CourseUpgradePaymentCancelError.rawValue
-        event.category = AnalyticsCategory.InAppPurchases.rawValue
-
-        var info = [
-            AnalyticsEventDataKey.Pacing.rawValue: pacing,
-            key_course_id: courseID,
-            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
-            AnalyticsEventDataKey.LocalizedPrice.rawValue: coursePrice,
-            AnalyticsEventDataKey.UpgradeError.rawValue: paymentError
-        ]
-
-        info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
-
-        trackEvent(event, forComponent: nil, withInfo: info)
-    }
 
     func trackCourseUpgradeError(courseID: String, blockID: String? = nil, pacing: String, localizedPrice: NSDecimalNumber? = nil, screen: CourseUpgradeScreen, upgradeError: String, flowType: String, lmsPrice: Double?, currencyCode: String?) {
         let event = OEXAnalyticsEvent()
