@@ -208,16 +208,17 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
 }
 
 extension CourseUnknownBlockViewController: ValuePropMessageViewDelegate {
-    func didTapUpgradeCourse(coursePrice: String, price: NSDecimalNumber?, currencyCode: String?, upgradeView: ValuePropComponentView) {
+    
+    func didTapUpgradeCourse(localizedPrice: NSDecimalNumber?, currencyCode: String?, upgradeView: ValuePropComponentView) {
         guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course,
               let courseID = course.course_id else { return }
         
-        environment.analytics.trackUpgradeNow(with: courseID, blockID: self.blockID ?? "", pacing: pacing, screenName: .courseComponent, coursePrice: coursePrice)
+        environment.analytics.trackUpgradeNow(with: courseID, blockID: blockID, pacing: pacing, screenName: .courseComponent, localizedPrice: localizedPrice, lmsPrice: course.lmsPrice, currencyCode: currencyCode)
         
-        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, blockID: blockID, localizedCoursePrice: coursePrice, screen: .courseComponent)
+        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, blockID: blockID, localizedCoursePrice: localizedPrice, screen: .courseComponent, lmsPrice: course.lmsPrice, currencyCode: currencyCode)
         let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
         
-        upgradeHandler.upgradeCourse(price: price, currencyCode: currencyCode) { [weak self] status in
+        upgradeHandler.upgradeCourse(price: localizedPrice, currencyCode: currencyCode) { [weak self] status in
             self?.enableUserInteraction(enable: false)
             
             switch status {

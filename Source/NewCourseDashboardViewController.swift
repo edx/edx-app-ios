@@ -432,16 +432,16 @@ extension NewCourseDashboardViewController: CourseDashboardAccessErrorViewDelega
         redirectToDiscovery()
     }
     
-    func coursePrice(cell: CourseDashboardAccessErrorView, price: String?, error: PurchaseError?, elapsedTime: Int) {
-        if let price = price {
-            trackPriceLoadDuration(price: price, elapsedTime: elapsedTime)
+    func coursePrice(cell: CourseDashboardAccessErrorView, localizedPrice: NSDecimalNumber?, currencyCode: String?, error: PurchaseError?, elapsedTime: Int) {
+        if let localizedPrice = localizedPrice {
+            trackPriceLoadDuration(localizedPrice: localizedPrice, currencyCode: currencyCode, elapsedTime: elapsedTime)
         }
         else {
             trackPriceLoadError(cell: cell, error: error)
         }
     }
     
-    func upgradeCourseAction(course: OEXCourse, coursePrice: String, price: NSDecimalNumber?, currencyCode: String?, completion: @escaping ((Bool) -> ())) {
+    func upgradeCourseAction(course: OEXCourse, localizedPrice: NSDecimalNumber?, currencyCode: String?, completion: @escaping ((Bool)->())) {
         let upgradeHandler = CourseUpgradeHandler(for: course, environment: environment)
         
         guard let courseID = course.course_id else {
@@ -450,11 +450,11 @@ extension NewCourseDashboardViewController: CourseDashboardAccessErrorViewDelega
             return
         }
         
-        environment.analytics.trackUpgradeNow(with: courseID, pacing: pacing, screenName: .courseDashboard, coursePrice: coursePrice)
+        environment.analytics.trackUpgradeNow(with: courseID, pacing: pacing, screenName: .courseDashboard, localizedPrice: localizedPrice, lmsPrice: course.lmsPrice, currencyCode: currencyCode)
         
-        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, localizedCoursePrice: coursePrice, screen: .courseDashboard)
+        courseUpgradeHelper.setupHelperData(environment: environment, pacing: pacing, courseID: courseID, localizedCoursePrice: localizedPrice, screen: .courseDashboard, lmsPrice: course.lmsPrice, currencyCode: currencyCode)
         
-        upgradeHandler.upgradeCourse(price: price, currencyCode: currencyCode) { [weak self] status in
+        upgradeHandler.upgradeCourse(price: localizedPrice, currencyCode: currencyCode) { [weak self] status in
             guard let weakSelf = self else { return }
             weakSelf.enableUserInteraction(enable: false)
             
@@ -497,11 +497,11 @@ extension NewCourseDashboardViewController: CourseDashboardAccessErrorViewDelega
 }
 
 extension NewCourseDashboardViewController {
-    private func trackPriceLoadDuration(price: String, elapsedTime: Int) {
+    private func trackPriceLoadDuration(localizedPrice: NSDecimalNumber?, currencyCode: String?, elapsedTime: Int) {
         guard let course = course,
               let courseID = course.course_id else { return }
         
-        environment.analytics.trackCourseUpgradeTimeToLoadPrice(courseID: courseID, pacing: pacing, coursePrice: price, screen: screen, elapsedTime: elapsedTime)
+        environment.analytics.trackCourseUpgradeTimeToLoadPrice(courseID: courseID, pacing: pacing, localizedPrice: localizedPrice, screen: screen, elapsedTime: elapsedTime, lmsPrice: course.lmsPrice, currencyCode: currencyCode)
     }
     
     private func trackPriceLoadError(cell: CourseDashboardAccessErrorView, error: PurchaseError?) {
@@ -518,14 +518,14 @@ extension NewCourseDashboardViewController {
         if error != .productNotExist {
             alertController.addButton(withTitle: Strings.CourseUpgrade.FailureAlert.priceFetchError) { [weak self] _ in
                 cell.fetchCoursePrice()
-                self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.course?.course_id ?? "" , blockID: "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
+                self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.course?.course_id ?? "" , blockID: "", pacing: self?.pacing ?? "", localizedPrice: nil, screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.reloadPrice.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue, lmsPrice: self?.course?.lmsPrice, currencyCode: nil)
             }
         }
 
         let cancelButtonTitle = error == .productNotExist ? Strings.ok : Strings.cancel
         alertController.addButton(withTitle: cancelButtonTitle, style: .default) { [weak self] _ in
             cell.hideUpgradeButton()
-            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.course?.course_id ?? "" , blockID: "", pacing: self?.pacing ?? "", coursePrice: "", screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue)
+            self?.environment.analytics.trackCourseUpgradeErrorAction(courseID: self?.course?.course_id ?? "" , blockID: "", pacing: self?.pacing ?? "", localizedPrice: nil, screen: self?.screen ?? .none, errorAction: CourseUpgradeHelper.ErrorAction.close.rawValue, upgradeError: "price", flowType: CourseUpgradeHandler.CourseUpgradeMode.userInitiated.rawValue, lmsPrice: self?.course?.lmsPrice, currencyCode: nil)
         }
     }
 }

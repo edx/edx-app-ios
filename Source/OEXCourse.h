@@ -40,8 +40,8 @@ OEXStartType OEXStartTypeForString(NSString* type);
 @interface OEXCourse : NSObject
 
 - (id)initWithDictionary:(NSDictionary *)info;
-- (instancetype) initWithDictionary:(NSDictionary *)info auditExpiryDate:(nullable NSString *) auditExpiryDate;
-- (instancetype)initWithDictionary:(NSDictionary *)info auditExpiryDate:(nullable NSString *) auditExpiryDate sku:(nullable NSString *) sku;
+- (instancetype) initWithDictionary:(NSDictionary *)info auditExpiryDate:(nullable NSString *)auditExpiryDate;
+- (instancetype)initWithDictionary:(NSDictionary *)info auditExpiryDate:(nullable NSString *)auditExpiryDate sku:(nullable NSString *)sku lmsPrice:(double) lmsPrice;
 
 // TODO: Rename these to CamelCase (MK - eh just make this swift)
 @property (readonly, nonatomic, strong, nullable) OEXLatestUpdates* latest_updates;
@@ -75,6 +75,8 @@ OEXStartType OEXStartTypeForString(NSString* type);
 @property (readonly, nonatomic, assign) BOOL isEndDateOld;
 @property (readonly, nonatomic, assign) BOOL isAuditExpired;
 @property (readonly, nonatomic) BOOL isSelfPaced;
+@property (nonatomic) double lmsPrice;
+
 
 @end
 

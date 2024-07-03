@@ -147,8 +147,9 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
     return [self initWithDictionary:info];
 }
 
-- (instancetype) initWithDictionary:(NSDictionary *)info auditExpiryDate:(nullable NSString *) auditExpiryDate sku:(nullable NSString *) sku {
+- (instancetype) initWithDictionary:(NSDictionary *)info auditExpiryDate:(nullable NSString *)auditExpiryDate sku:(nullable NSString *)sku lmsPrice:(double)lmsPrice {
     self.sku = sku;
+    self.lmsPrice = lmsPrice;
     return [self initWithDictionary:info auditExpiryDate:auditExpiryDate];
 }
 
