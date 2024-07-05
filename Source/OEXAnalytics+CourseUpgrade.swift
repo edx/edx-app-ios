@@ -8,107 +8,96 @@
 
 import Foundation
 extension OEXAnalytics {
-    func trackUpgradeNow(with courseID: String, blockID: String? = nil, pacing: String, screenName: CourseUpgradeScreen, coursePrice: String) {
+    func trackUpgradeNow(with courseID: String, blockID: String? = nil, pacing: String, screenName: CourseUpgradeScreen, localizedPrice: NSDecimalNumber?, lmsPrice: Double?, currencyCode: String?) {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.UpgradeNowClicked.rawValue
         event.name = AnalyticsEventName.UpgradeNowClicked.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
-        var info = [
+        var info: [String : Any] = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             AnalyticsEventDataKey.ScreenName.rawValue: screenName.rawValue,
-            key_course_id: courseID,
-            AnalyticsEventDataKey.Price.rawValue: coursePrice
+            key_course_id: courseID
         ]
 
         info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
+        info.setObjectOrNil(currencyCode, forKey: AnalyticsEventDataKey.LocalizedCurrencyCode.rawValue)
+        info.setObjectOrNil(localizedPrice, forKey: AnalyticsEventDataKey.LocalizedPrice.rawValue)
+        info.setObjectOrNil(lmsPrice, forKey: AnalyticsEventDataKey.LMSPrice.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 
-    func trackCourseUpgradePaymentTime(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, elapsedTime: Int) {
+    func trackCourseUpgradePaymentTime(courseID: String, blockID: String? = nil, pacing: String, localizedPrice: NSDecimalNumber?, screen: CourseUpgradeScreen, elapsedTime: Int, lmsPrice: Double?, currencyCode: String?) {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradePaymentTime.rawValue
         event.name = AnalyticsEventName.CourseUpgradePaymentTime.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
-        var info = [
+        var info: [String : Any] = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
-            AnalyticsEventDataKey.Price.rawValue: coursePrice,
             AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)"
         ]
 
         info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
+        info.setObjectOrNil(currencyCode, forKey: AnalyticsEventDataKey.LocalizedCurrencyCode.rawValue)
+        info.setObjectOrNil(localizedPrice, forKey: AnalyticsEventDataKey.LocalizedPrice.rawValue)
+        info.setObjectOrNil(lmsPrice, forKey: AnalyticsEventDataKey.LMSPrice.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 
-    func trackCourseUpgradeTimeToLoadPrice(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, elapsedTime: Int) {
+    func trackCourseUpgradeTimeToLoadPrice(courseID: String, blockID: String? = nil, pacing: String, localizedPrice: NSDecimalNumber?, screen: CourseUpgradeScreen, elapsedTime: Int, lmsPrice: Double?, currencyCode: String?) {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradeTimeToLoadPrice.rawValue
         event.name = AnalyticsEventName.CourseUpgradeTimeToLoadPrice.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
-        var info = [
+        var info: [String : Any] = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
-            AnalyticsEventDataKey.Price.rawValue: coursePrice,
             AnalyticsEventDataKey.ElapsedTime.rawValue: "\(elapsedTime)"
         ]
 
         info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
+        info.setObjectOrNil(currencyCode, forKey: AnalyticsEventDataKey.LocalizedCurrencyCode.rawValue)
+        info.setObjectOrNil(lmsPrice, forKey: AnalyticsEventDataKey.LMSPrice.rawValue)
+        info.setObjectOrNil(localizedPrice, forKey: AnalyticsEventDataKey.LocalizedPrice.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 
-    func trackCourseUpgradePaymentError(name: AnalyticsDisplayName, biName: AnalyticsEventName, courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, paymentError: String) {
+    func trackCourseUpgradePaymentError(name: AnalyticsDisplayName, biName: AnalyticsEventName, courseID: String, blockID: String? = nil, pacing: String, localizedPrice: NSDecimalNumber?, screen: CourseUpgradeScreen, paymentError: String, lmsPrice: Double?, currencyCode: String?) {
         let event = OEXAnalyticsEvent()
         event.displayName = name.rawValue
         event.name = biName.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
-        var info = [
+        var info: [String : Any] = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
-            AnalyticsEventDataKey.Price.rawValue: coursePrice,
             AnalyticsEventDataKey.UpgradeError.rawValue: paymentError
         ]
 
         info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
-
-        trackEvent(event, forComponent: nil, withInfo: info)
-    }
-    
-    func trackCourseUpgradePaymentCancelError(name: AnalyticsDisplayName, biName: AnalyticsEventName, courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, paymentError: String) {
-        let event = OEXAnalyticsEvent()
-        event.displayName = AnalyticsDisplayName.CourseUpgradePaymentCancelError.rawValue
-        event.name = AnalyticsEventName.CourseUpgradePaymentCancelError.rawValue
-        event.category = AnalyticsCategory.InAppPurchases.rawValue
-
-        var info = [
-            AnalyticsEventDataKey.Pacing.rawValue: pacing,
-            key_course_id: courseID,
-            AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
-            AnalyticsEventDataKey.Price.rawValue: coursePrice,
-            AnalyticsEventDataKey.UpgradeError.rawValue: paymentError
-        ]
-
-        info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
+        info.setObjectOrNil(currencyCode, forKey: AnalyticsEventDataKey.LocalizedCurrencyCode.rawValue)
+        info.setObjectOrNil(lmsPrice, forKey: AnalyticsEventDataKey.LMSPrice.rawValue)
+        info.setObjectOrNil(localizedPrice, forKey: AnalyticsEventDataKey.LocalizedPrice.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 
-    func trackCourseUpgradeError(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String? = nil, screen: CourseUpgradeScreen, upgradeError: String, flowType: String) {
+    func trackCourseUpgradeError(courseID: String, blockID: String? = nil, pacing: String, localizedPrice: NSDecimalNumber? = nil, screen: CourseUpgradeScreen, upgradeError: String, flowType: String, lmsPrice: Double?, currencyCode: String?) {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradeError.rawValue
         event.name = AnalyticsEventName.CourseUpgradeError.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
-        var info = [
+        var info: [String : Any] = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
@@ -116,7 +105,9 @@ extension OEXAnalytics {
         ]
 
         info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
-        info.setObjectOrNil(coursePrice, forKey: AnalyticsEventDataKey.Price.rawValue)
+        info.setObjectOrNil(localizedPrice, forKey: AnalyticsEventDataKey.LocalizedPrice.rawValue)
+        info.setObjectOrNil(currencyCode, forKey: AnalyticsEventDataKey.LocalizedCurrencyCode.rawValue)
+        info.setObjectOrNil(lmsPrice, forKey: AnalyticsEventDataKey.LMSPrice.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
@@ -138,13 +129,13 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 
-    func trackCourseUpgradeErrorAction(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String? = nil, screen: CourseUpgradeScreen, errorAction: String, upgradeError: String, flowType: String) {
+    func trackCourseUpgradeErrorAction(courseID: String, blockID: String? = nil, pacing: String, localizedPrice: NSDecimalNumber? = nil, screen: CourseUpgradeScreen, errorAction: String, upgradeError: String, flowType: String, lmsPrice: Double?, currencyCode: String?) {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradeErrorAction.rawValue
         event.name = AnalyticsEventName.CourseUpgradeErrorAction.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
-        var info = [
+        var info: [String : Any] = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
@@ -154,18 +145,20 @@ extension OEXAnalytics {
         ]
 
         info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
-        info.setObjectOrNil(coursePrice, forKey: AnalyticsEventDataKey.Price.rawValue)
+        info.setObjectOrNil(localizedPrice, forKey: AnalyticsEventDataKey.LocalizedPrice.rawValue)
+        info.setObjectOrNil(currencyCode, forKey: AnalyticsEventDataKey.LocalizedCurrencyCode.rawValue)
+        info.setObjectOrNil(lmsPrice, forKey: AnalyticsEventDataKey.LMSPrice.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 
-    func trackCourseUpgradeSuccess(courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, elapsedTime: Int, flowType: String) {
+    func trackCourseUpgradeSuccess(courseID: String, blockID: String? = nil, pacing: String, localizedPrice: NSDecimalNumber?, screen: CourseUpgradeScreen, elapsedTime: Int, flowType: String, lmsPrice: Double?, currencyCode: String?) {
         let event = OEXAnalyticsEvent()
         event.displayName = AnalyticsDisplayName.CourseUpgradeSuccess.rawValue
         event.name = AnalyticsEventName.CourseUpgradeSuccess.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
-        var info = [
+        var info: [String : Any] = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
@@ -174,18 +167,20 @@ extension OEXAnalytics {
         ]
 
         info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
-        info.setObjectOrNil(coursePrice, forKey: AnalyticsEventDataKey.Price.rawValue)
+        info.setObjectOrNil(localizedPrice, forKey: AnalyticsEventDataKey.LocalizedPrice.rawValue)
+        info.setObjectOrNil(currencyCode, forKey: AnalyticsEventDataKey.LocalizedCurrencyCode.rawValue)
+        info.setObjectOrNil(lmsPrice, forKey: AnalyticsEventDataKey.LMSPrice.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }
 
-    func trackCourseUpgradeDuration(isRefresh: Bool, courseID: String, blockID: String? = nil, pacing: String, coursePrice: String, screen: CourseUpgradeScreen, elapsedTime: Int, flowType: String) {
+    func trackCourseUpgradeDuration(isRefresh: Bool, courseID: String, blockID: String? = nil, pacing: String, localizedPrice: NSDecimalNumber?, screen: CourseUpgradeScreen, elapsedTime: Int, flowType: String, lmsPrice: Double?, currencyCode: String?) {
         let event = OEXAnalyticsEvent()
         event.displayName = isRefresh ? AnalyticsDisplayName.CourseUpgradeSuccessDurationAfterRefresh.rawValue : AnalyticsDisplayName.CourseUpgradeSuccessDuration.rawValue
         event.name = isRefresh ? AnalyticsEventName.CourseUpgradeSuccessDurationAfterRefresh.rawValue : AnalyticsEventName.CourseUpgradeSuccessDuration.rawValue
         event.category = AnalyticsCategory.InAppPurchases.rawValue
 
-        var info = [
+        var info: [String : Any] = [
             AnalyticsEventDataKey.Pacing.rawValue: pacing,
             key_course_id: courseID,
             AnalyticsEventDataKey.ScreenName.rawValue: screen.rawValue,
@@ -194,7 +189,9 @@ extension OEXAnalytics {
         ]
 
         info.setObjectOrNil(blockID, forKey: AnalyticsEventDataKey.ComponentID.rawValue)
-        info.setObjectOrNil(coursePrice, forKey: AnalyticsEventDataKey.Price.rawValue)
+        info.setObjectOrNil(localizedPrice, forKey: AnalyticsEventDataKey.LocalizedPrice.rawValue)
+        info.setObjectOrNil(currencyCode, forKey: AnalyticsEventDataKey.LocalizedCurrencyCode.rawValue)
+        info.setObjectOrNil(lmsPrice, forKey: AnalyticsEventDataKey.LMSPrice.rawValue)
 
         trackEvent(event, forComponent: nil, withInfo: info)
     }

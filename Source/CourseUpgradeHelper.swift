@@ -71,18 +71,23 @@ class CourseUpgradeHelper: NSObject {
     private var courseID: CourseBlockID?
     private var blockID: CourseBlockID?
     private var screen: CourseUpgradeScreen = .none
-    private var localizedCoursePrice: String?
+    private var localizedCoursePrice: NSDecimalNumber?
+    private var lmsPrice: Double?
+    private var currencyCode: String?
+    
     weak private(set) var upgradeHadler: CourseUpgradeHandler?
         
     private override init() { }
     
-    func setupHelperData(environment: Environment, pacing: String, courseID: CourseBlockID, blockID: CourseBlockID? = nil, localizedCoursePrice: String, screen: CourseUpgradeScreen) {
+    func setupHelperData(environment: Environment, pacing: String, courseID: CourseBlockID, blockID: CourseBlockID? = nil, localizedCoursePrice: NSDecimalNumber?, screen: CourseUpgradeScreen, lmsPrice: Double, currencyCode: String?) {
         self.environment = environment
         self.pacing = pacing
         self.courseID = courseID
         self.blockID = blockID
         self.localizedCoursePrice = localizedCoursePrice
         self.screen = screen
+        self.lmsPrice = lmsPrice
+        self.currencyCode = currencyCode
     }
 
     func resetUpgradeModel() {
@@ -118,7 +123,8 @@ class CourseUpgradeHelper: NSObject {
             contentUpgradeTime = CFAbsoluteTimeGetCurrent()
             if upgradeHadler.upgradeMode == .userInitiated {
                 let endTime = CFAbsoluteTimeGetCurrent() - (paymentStartTime ?? 0)
-                environment?.analytics.trackCourseUpgradePaymentTime(courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: localizedCoursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond)
+                
+                environment?.analytics.trackCourseUpgradePaymentTime(courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", localizedPrice: localizedCoursePrice, screen: screen, elapsedTime: endTime.millisecond, lmsPrice: lmsPrice, currencyCode: currencyCode)
             }
             if show {
                 showLoader()
@@ -136,14 +142,14 @@ class CourseUpgradeHelper: NSObject {
         case .error(let type, let error):
             if type == .paymentError {
                 if let error = error as? SKError, error.code == .paymentCancelled {
-                    environment?.analytics.trackCourseUpgradePaymentError(name: .CourseUpgradePaymentCancelError, biName: .CourseUpgradePaymentCancelError, courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: localizedCoursePrice ?? "", screen: screen, paymentError: upgradeHadler.formattedError)
+                    environment?.analytics.trackCourseUpgradePaymentError(name: .CourseUpgradePaymentCancelError, biName: .CourseUpgradePaymentCancelError, courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", localizedPrice: localizedCoursePrice, screen: screen, paymentError: upgradeHadler.formattedError, lmsPrice: lmsPrice, currencyCode: currencyCode)
                 }
                 else {
-                    environment?.analytics.trackCourseUpgradePaymentError(name: .CourseUpgradePaymentError, biName: .CourseUpgradePaymentError, courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: localizedCoursePrice ?? "", screen: screen, paymentError: upgradeHadler.formattedError)
+                    environment?.analytics.trackCourseUpgradePaymentError(name: .CourseUpgradePaymentError, biName: .CourseUpgradePaymentError, courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", localizedPrice: localizedCoursePrice, screen: screen, paymentError: upgradeHadler.formattedError, lmsPrice: lmsPrice, currencyCode: currencyCode)
                 }
             }
             else {
-                environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: localizedCoursePrice ?? "", screen: screen, upgradeError: upgradeHadler.formattedError, flowType: upgradeHadler.upgradeMode.rawValue)
+                environment?.analytics.trackCourseUpgradeError(courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", localizedPrice: localizedCoursePrice, screen: screen, upgradeError: upgradeHadler.formattedError, flowType: upgradeHadler.upgradeMode.rawValue, lmsPrice: lmsPrice, currencyCode: currencyCode)
             }
             
             removeLoader(success: false, removeView: type != .verifyReceiptError)
@@ -156,16 +162,16 @@ class CourseUpgradeHelper: NSObject {
         topController.showBottomActionSnackBar(message: Strings.CourseUpgrade.successMessage, textSize: .xSmall, autoDismiss: true, duration: 3)
 
         let contentTime = CFAbsoluteTimeGetCurrent() - (contentUpgradeTime ?? 0)
-        environment?.analytics.trackCourseUpgradeDuration(isRefresh: false, courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: localizedCoursePrice ?? "", screen: screen, elapsedTime: contentTime.millisecond, flowType: upgradeHadler?.upgradeMode.rawValue ?? "")
+        environment?.analytics.trackCourseUpgradeDuration(isRefresh: false, courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", localizedPrice: localizedCoursePrice, screen: screen, elapsedTime: contentTime.millisecond, flowType: upgradeHadler?.upgradeMode.rawValue ?? "", lmsPrice: lmsPrice, currencyCode: currencyCode)
         
         if let refreshTime = refreshTime {
             let refreshEndTime = CFAbsoluteTimeGetCurrent() - refreshTime
             
-            environment?.analytics.trackCourseUpgradeDuration(isRefresh: true, courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: localizedCoursePrice ?? "", screen: screen, elapsedTime: refreshEndTime.millisecond, flowType: upgradeHadler?.upgradeMode.rawValue ?? "")
+            environment?.analytics.trackCourseUpgradeDuration(isRefresh: true, courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", localizedPrice: localizedCoursePrice, screen: screen, elapsedTime: refreshEndTime.millisecond, flowType: upgradeHadler?.upgradeMode.rawValue ?? "", lmsPrice: lmsPrice, currencyCode: currencyCode)
         }
 
         let endTime = CFAbsoluteTimeGetCurrent() - (startTime ?? 0)
-        environment?.analytics.trackCourseUpgradeSuccess(courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: localizedCoursePrice ?? "", screen: screen, elapsedTime: endTime.millisecond, flowType: upgradeHadler?.upgradeMode.rawValue ?? "")
+        environment?.analytics.trackCourseUpgradeSuccess(courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", localizedPrice: localizedCoursePrice, screen: screen, elapsedTime: endTime.millisecond, flowType: upgradeHadler?.upgradeMode.rawValue ?? "", lmsPrice: lmsPrice, currencyCode: currencyCode)
 
         clearData()
     }
@@ -265,7 +271,7 @@ class CourseUpgradeHelper: NSObject {
     }
     
     private func trackUpgradeErrorAction(errorAction: ErrorAction) {
-        environment?.analytics.trackCourseUpgradeErrorAction(courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", coursePrice: localizedCoursePrice, screen: screen, errorAction: errorAction.rawValue, upgradeError: upgradeHadler?.formattedError ?? "", flowType: upgradeHadler?.upgradeMode.rawValue ?? "")
+        environment?.analytics.trackCourseUpgradeErrorAction(courseID: courseID ?? "", blockID: blockID, pacing: pacing ?? "", localizedPrice: localizedCoursePrice, screen: screen, errorAction: errorAction.rawValue, upgradeError: upgradeHadler?.formattedError ?? "", flowType: upgradeHadler?.upgradeMode.rawValue ?? "", lmsPrice: lmsPrice, currencyCode: currencyCode)
     }
 
     private func hideAlertAction() {
